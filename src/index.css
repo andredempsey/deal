@@ -1,14 +1,74 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body{
+    text-align: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+.suitcase {
+    cursor: pointer;
+    border: 1px solid lightgray;
+    margin: 1%;
+    padding: 30px 5px 5px 5px ;
+    width: 130px;
+    height: 85px;
+    border-radius: 5%;
+    float:left;
+    /* background-image: url('./suitcase.png'); */
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    
+}
+.value-reveal{
+    background: burlywood;
+}
+.value-hidden{
+    background: green;
+}
+.game-area{
+    margin-left: 8%;
+    margin-right: 2%;
+    padding: 0;
+}
+.offer{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+.offer h4{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: auto;
+    margin-left: auto;
+    height: 30px;
+    width: 400px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.prize{
+    border: 1px solid lightgray;
+    margin-left: 0;
+    margin-right: 0.4%;
+    margin-top: 0%;
+    margin-bottom: 0.5%;
+    padding: 15px 5px 5px 5px ;
+    width: 70px;
+    height: 50px;
+    border-radius: 5%;
+    float:left;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.prize h4{
+    font-size: 15px;
+}
+
+.prize-removed{
+    background: gray;
+}
+.prize-available{
+    background: green;
+}
+.prize-area{
+    margin-left: 11%;
+    margin-right: 5%;
+    padding: 0;
 }

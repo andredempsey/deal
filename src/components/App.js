@@ -10,7 +10,7 @@ class App extends Component {
     constructor(){
         super();
         this.state = {
-            offer:1000,
+            offer:100,
             cases: 30
         }
     }

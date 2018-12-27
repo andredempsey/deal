@@ -1,8 +1,8 @@
-import {SET_SUITCASES} from '../actions';
+import {INITIALIZE_SUITCASES} from '../actions';
 
 function suitcases(state = {}, action) {
     switch (action.type) {
-        case SET_SUITCASES:
+        case INITIALIZE_SUITCASES:
             return action.suitcases
         default:
             return state;

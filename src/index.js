@@ -6,13 +6,12 @@ import { Provider } from 'react-redux';
 import rootReducer from './reducers';
 import './index.css';
 import App from './components/App';
-import { setSuitCases, setPrizes, setOffer } from './actions';
+import { setSuitCases, setPrizes } from './actions';
 import { suitcases, prizes } from './data/initial';
 
 const store = createStore(rootReducer);
 store.dispatch (setSuitCases(suitcases, prizes));
 store.dispatch (setPrizes(prizes));
-store.dispatch (setOffer({remainingCases:30, expectedValue: 40}));
 store.subscribe(() => console.log('store', store.getState()));
 
     ReactDOM.render(

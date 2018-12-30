@@ -5,6 +5,7 @@ import Prize from './Prize';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { setSuitCases, removePrize, pickCase } from '../actions';
+import 'react-toastify/dist/ReactToastify.css';
 
 class App extends Component {
     constructor(){
@@ -28,9 +29,12 @@ class App extends Component {
             this.setState({ available: available - 1})
             const {value} = suitcase;
             const toastContent = "$" + value;
-            toast.info(toastContent, {
-                position: toast.POSITION.TOP_CENTER
-              });
+            toast.success(toastContent, {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                className: 'black-background',
+                });
             this.props.pickCase(suitcase);
             this.props.removePrize(value);
             const casesLeftBeforeOffer = leftThisRound - 1; 
@@ -82,14 +86,18 @@ class App extends Component {
                         selectedSuitcase = {(value)=>this.suitcaseSelected(value)}/>                
                         )}
                 </div>
+                <ToastContainer
+                    position="bottom-center"
+                />
                 <div className="prize-area">
                 <div><h4>Remaining Prizes</h4></div>
                 {prizes.map(prize => 
                     <Prize key={prize.id} prize={prize}/>                
                     )}
                 </div>
-                <ToastContainer autoClose = {3000}/>
+
             </React.Fragment>
+            
         )
     }
 }

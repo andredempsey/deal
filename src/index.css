@@ -80,3 +80,6 @@ body{
     from {opacity: 0}
     to {opacity: 100}
 }
+.black-background{
+    background-color: green;
+}

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import SuitCase from './SuitCase';
 import Prize from './Prize';
 import { connect } from 'react-redux';
@@ -19,18 +20,21 @@ class App extends Component {
     updateOffer = (value) => {
         this.setState({ offer:(50 * value) });
     }
-    
+
     suitcaseSelected = (suitcase) => {
         const { available } = this.state;
         if(!suitcase.selected){
             const {leftThisRound} = this.state;
             this.setState({ available: available - 1})
             const {value} = suitcase;
+            const toastContent = "$" + value;
+            toast.info(toastContent, {
+                position: toast.POSITION.TOP_CENTER
+              });
             this.props.pickCase(suitcase);
             this.props.removePrize(value);
             const casesLeftBeforeOffer = leftThisRound - 1; 
             this.setState( { leftThisRound:casesLeftBeforeOffer });
-            console.log("Cases Left Before Offer: ", casesLeftBeforeOffer);
             if(casesLeftBeforeOffer === 0){
                 console.log("Time to make an offer!");
                 const { round } = this.state;
@@ -51,21 +55,20 @@ class App extends Component {
                 }
             }
         }
-        console.log("After a case has been selected: ", this.state);
     }
     render(){
         const { suitcases, prizes } = this.props;
         const { offer, round, available } = this.state;
         return (
             <React.Fragment>
-                <h2>Deal or No Deal</h2>
-                <h4> Round {round} </h4>
+                <h1>Deal or No Deal</h1>
                 <div inline="true">
+                    <span> Round {round} </span>
                     <Button className='btn btn-success'>Start</Button>
                     <Button className='btn btn-warn'>Continue</Button>
                     <Button className='btn btn-danger'>Quit</Button>
+                    <span>Cases Remaining = { available }</span>
                 </div>
-                <h4>Cases Remaining = { available }</h4>
                 <div className="offer">
                     <h4>
                         Current Offer = ${offer}
@@ -80,11 +83,12 @@ class App extends Component {
                         )}
                 </div>
                 <div className="prize-area">
-                <div><h3>Remaining Prizes</h3></div>
+                <div><h4>Remaining Prizes</h4></div>
                 {prizes.map(prize => 
                     <Prize key={prize.id} prize={prize}/>                
                     )}
                 </div>
+                <ToastContainer autoClose = {3000}/>
             </React.Fragment>
         )
     }

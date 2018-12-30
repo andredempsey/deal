@@ -20,6 +20,8 @@ body{
     background: burlywood;
 }
 .value-hidden{
+    animation-name: fade-in;
+    animation-duration: 5s;
     background: green;
     color:white;
 }
@@ -72,4 +74,9 @@ body{
     margin-left: 9.5%;
     margin-right: 5%;
     padding: 0;
+}
+
+@keyframes fade-in {
+    from {opacity: 0}
+    to {opacity: 100}
 }

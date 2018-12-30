@@ -16,53 +16,84 @@ class App extends Component {
             round: 1,
             available: 32
         }
-    }
+    };
 
     start = () => {
         window.location.reload();
-    }
+    };
 
     setRound = (offer) => {
         const { round } = this.state;
         const newRound = round + 1;
         this.setState({ round:newRound, offer  });
-    }
+    };
 
+    randomIntFromInterval = (lower,upper) => {
+        return Math.floor(Math.random()*(upper-lower+1)+lower)/100;
+    };
+
+    getExpectedValue = () => {
+        //get expected value of cases
+        let sumOfValues = 0;
+        const { available } = this.state; 
+        const { prizes } = this.props;
+        prizes.forEach(element => {
+            sumOfValues = sumOfValues + element.amount;
+        })
+        console.log("Sum = ", sumOfValues);
+        console.log("Remaining cases = ", available);
+        return sumOfValues/available.toFixed(0);
+    }
     updateOffer = (value) => {
-        let offer = 0;
         const { round } = this.state;
+        let upper = 100;
+        let lower = 1;
         switch ( round ){
             case (1):
-                offer = 1;
+                upper = 35;
+                lower = 20;
                 break;
             case (2):
-                offer = 2;
+                upper = 35;
+                lower = 20;
                 break;
             case (3):
-                offer = 3;
+                upper = 35;
+                lower = 20;
                 break;
             case (4):
-                offer = 4;
+                upper = 35;
+                lower = 20;
                 break;
             case (5):
-                offer = 5;
+                upper = 35;
+                lower = 20;
                 break;
             case (6):
-                offer = 6;
+                upper = 45;
+                lower = 30;
                 break;
             case (7):
-                offer = 7;
+                upper = 45;
+                lower = 30;
                 break;
             case (8):
-                offer = 8;
+                upper = 55;
+                lower = 35;
                 break;
             case (9):
-                offer = 9;
+                upper = 65;
+                lower = 50;
                 break;
             default:
                 break;
         }
-        
+        const RV = this.randomIntFromInterval(lower, upper);
+        const EV = this.getExpectedValue();
+        console.log("Random value = ", RV)
+        console.log("Expected value = ", EV)
+        const offer = (EV * RV).toFixed(0);
+        this.setState({ offer });
         const toastContent = `The banker's offer is $${offer}`;
         toast.info(toastContent, {
             position: "bottom-center",
@@ -113,6 +144,9 @@ class App extends Component {
                     this.setState({ leftThisRound: 5 })
                 }
                 else if (available >= 12){
+                    this.setState({ leftThisRound: 4 })
+                }
+                else if (available > 2){
                     this.setState({ leftThisRound: 3 })
                 }
                 else if (available === 2){

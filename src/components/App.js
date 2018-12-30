@@ -19,7 +19,16 @@ class App extends Component {
     }
 
     updateOffer = (value) => {
-        this.setState({ offer:(50 * value) });
+        const offer = 50 * value;
+        this.setState({ offer });
+        
+        const toastContent = `The banker's offer is $${offer}`;
+        toast.info(toastContent, {
+            position: "bottom-center",
+            autoClose: 10000,
+            closeButton: true,
+            hideProgressBar: false,
+        });
     }
 
     suitcaseSelected = (suitcase) => {
@@ -29,31 +38,37 @@ class App extends Component {
             const {value} = suitcase;
             console.log("Available = ", available);
             let toastContent= "";
+            let casesLeftBeforeOffer = 5;
             if (available === 32 ){
                 toastContent = "You selected case # " + suitcase.label;
                 suitcase.chosen = true;
+                toast.info(toastContent, {
+                    position: "bottom-center",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                });
             }
             else{
                 toastContent = "$" + value;
                 suitcase.selected = true;
                 this.props.removePrize(value);
+                toast.success(toastContent, {
+                    position: "bottom-center",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                });
+                casesLeftBeforeOffer = leftThisRound - 1; 
+                this.setState( { leftThisRound:casesLeftBeforeOffer });
             }
-            toast.success(toastContent, {
-                position: "bottom-center",
-                autoClose: 3000,
-                hideProgressBar: true,
-                className: 'black-background',
-            });
             this.setState({ available: available - 1})
             this.props.pickCase(suitcase);
-            const casesLeftBeforeOffer = leftThisRound - 1; 
-            this.setState( { leftThisRound:casesLeftBeforeOffer });
             if(casesLeftBeforeOffer === 0){
                 console.log("Time to make an offer!");
                 const { round } = this.state;
                 const newRound = round + 1;
                 this.setState({ round:newRound });
                 this.updateOffer(value);
+
                 if (available >= 22){
                     this.setState({ leftThisRound: 5 })
                 }
@@ -76,16 +91,11 @@ class App extends Component {
             <React.Fragment>
                 <h1>Deal or No Deal</h1>
                 <div inline="true">
-                    <span> Round {round} </span>
                     <Button className='btn btn-success'>Start</Button>
-                    <Button className='btn btn-warn'>Continue</Button>
+                    <span className="info"> Round {round} </span>
+                    <span className="info">Cases Remaining = { available }</span>
+                    <span className="info">Last Offer = ${offer}</span>
                     <Button className='btn btn-danger'>Quit</Button>
-                    <span>Cases Remaining = { available }</span>
-                </div>
-                <div className="offer">
-                    <h4>
-                        Current Offer = ${offer}
-                    </h4>
                 </div>
                 <div className="game-area">
                     {suitcases.map(suitcase => 

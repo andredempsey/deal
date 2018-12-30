@@ -30,7 +30,6 @@ export function setPrizes (prizes) {
 
 
 export function pickCase (suitcase) {
-    suitcase.selected = true;
     return{
         type: PICK_CASE,
         suitcase

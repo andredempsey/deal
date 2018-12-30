@@ -19,6 +19,9 @@ body{
 .value-reveal{
     background: burlywood;
 }
+.value-chosen{
+    background-color: blue;
+}
 .value-hidden{
     animation-name: fade-in;
     animation-duration: 5s;

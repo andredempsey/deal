@@ -26,17 +26,26 @@ class App extends Component {
         const { available } = this.state;
         if(!suitcase.selected){
             const {leftThisRound} = this.state;
-            this.setState({ available: available - 1})
             const {value} = suitcase;
-            const toastContent = "$" + value;
+            console.log("Available = ", available);
+            let toastContent= "";
+            if (available === 32 ){
+                toastContent = "You selected case # " + suitcase.label;
+                suitcase.chosen = true;
+            }
+            else{
+                toastContent = "$" + value;
+                suitcase.selected = true;
+                this.props.removePrize(value);
+            }
             toast.success(toastContent, {
                 position: "bottom-center",
                 autoClose: 3000,
                 hideProgressBar: true,
                 className: 'black-background',
-                });
+            });
+            this.setState({ available: available - 1})
             this.props.pickCase(suitcase);
-            this.props.removePrize(value);
             const casesLeftBeforeOffer = leftThisRound - 1; 
             this.setState( { leftThisRound:casesLeftBeforeOffer });
             if(casesLeftBeforeOffer === 0){

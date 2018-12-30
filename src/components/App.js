@@ -18,15 +18,57 @@ class App extends Component {
         }
     }
 
+    start = () => {
+        window.location.reload();
+    }
+
+    setRound = (offer) => {
+        const { round } = this.state;
+        const newRound = round + 1;
+        this.setState({ round:newRound, offer  });
+    }
+
     updateOffer = (value) => {
-        const offer = 50 * value;
-        this.setState({ offer });
+        let offer = 0;
+        const { round } = this.state;
+        switch ( round ){
+            case (1):
+                offer = 1;
+                break;
+            case (2):
+                offer = 2;
+                break;
+            case (3):
+                offer = 3;
+                break;
+            case (4):
+                offer = 4;
+                break;
+            case (5):
+                offer = 5;
+                break;
+            case (6):
+                offer = 6;
+                break;
+            case (7):
+                offer = 7;
+                break;
+            case (8):
+                offer = 8;
+                break;
+            case (9):
+                offer = 9;
+                break;
+            default:
+                break;
+        }
         
         const toastContent = `The banker's offer is $${offer}`;
         toast.info(toastContent, {
             position: "bottom-center",
-            autoClose: 10000,
+            autoClose: 30000,
             closeButton: true,
+            onClose: (offer) => this.setRound(offer),
             hideProgressBar: false,
         });
     }
@@ -64,9 +106,7 @@ class App extends Component {
             this.props.pickCase(suitcase);
             if(casesLeftBeforeOffer === 0){
                 console.log("Time to make an offer!");
-                const { round } = this.state;
-                const newRound = round + 1;
-                this.setState({ round:newRound });
+                
                 this.updateOffer(value);
 
                 if (available >= 22){
@@ -91,7 +131,7 @@ class App extends Component {
             <React.Fragment>
                 <h1>Deal or No Deal</h1>
                 <div inline="true">
-                    <Button className='btn btn-success'>Start</Button>
+                    <Button className='btn btn-success' onClick={this.start}>Start</Button>
                     <span className="info"> Round {round} </span>
                     <span className="info">Cases Remaining = { available }</span>
                     <span className="info">Last Offer = ${offer}</span>

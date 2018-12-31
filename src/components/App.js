@@ -34,12 +34,12 @@ class App extends Component {
 
     getExpectedValue = () => {
         //get expected value of cases
-        let sumOfValues = 0;
         const { available } = this.state; 
         const { prizes } = this.props;
-        prizes.forEach(element => {
-            sumOfValues = sumOfValues + element.amount;
-        })
+        let remainingPrizes = prizes.filter((prize)=> prize.inPlay)
+        let sumOfValues = remainingPrizes.reduce((previousValue, currentObject)=>{
+            return previousValue + currentObject.amount; 
+        }, 0);
         console.log("Sum = ", sumOfValues);
         console.log("Remaining cases = ", available);
         return sumOfValues/available.toFixed(0);
@@ -48,46 +48,18 @@ class App extends Component {
         const { round } = this.state;
         let upper = 100;
         let lower = 1;
-        switch ( round ){
-            case (1):
-                upper = 35;
-                lower = 20;
-                break;
-            case (2):
-                upper = 35;
-                lower = 20;
-                break;
-            case (3):
-                upper = 35;
-                lower = 20;
-                break;
-            case (4):
-                upper = 35;
-                lower = 20;
-                break;
-            case (5):
-                upper = 35;
-                lower = 20;
-                break;
-            case (6):
-                upper = 45;
-                lower = 30;
-                break;
-            case (7):
-                upper = 45;
-                lower = 30;
-                break;
-            case (8):
-                upper = 55;
-                lower = 35;
-                break;
-            case (9):
-                upper = 65;
-                lower = 50;
-                break;
-            default:
-                break;
+        if ( round <= 7){
+            upper = 45;
+            lower = 30;
         }
+        else if (round === 8){
+            upper = 55;
+            lower = 35;
+        }   
+        else {
+            upper = 65;
+            lower = 50;
+        }   
         const RV = this.randomIntFromInterval(lower, upper);
         const EV = this.getExpectedValue();
         console.log("Random value = ", RV)
@@ -96,7 +68,7 @@ class App extends Component {
         this.setState({ offer });
         const toastContent = `The banker's offer is $${offer}`;
         toast.info(toastContent, {
-            position: "bottom-center",
+            position: "top-center",
             autoClose: 30000,
             closeButton: true,
             onClose: (offer) => this.setRound(offer),
@@ -116,18 +88,27 @@ class App extends Component {
                 toastContent = "You selected case # " + suitcase.label;
                 suitcase.chosen = true;
                 toast.info(toastContent, {
-                    position: "bottom-center",
+                    position: "top-center",
                     autoClose: 3000,
                     hideProgressBar: true,
                 });
             }
-            else{
+            else if (available === 2)
+            {
+                toastContent = "Do you want to keep your original case or switch?";
+                toast.info(toastContent, {
+                    position: "top-center",
+                    autoClose: 10000,
+                    hideProgressBar: false,
+                });
+            }            
+            else {
                 toastContent = "$" + value;
                 suitcase.selected = true;
                 this.props.removePrize(value);
                 toast.success(toastContent, {
                     position: "bottom-center",
-                    autoClose: 3000,
+                    autoClose: 1000,
                     hideProgressBar: true,
                 });
                 casesLeftBeforeOffer = leftThisRound - 1; 
@@ -136,10 +117,7 @@ class App extends Component {
             this.setState({ available: available - 1})
             this.props.pickCase(suitcase);
             if(casesLeftBeforeOffer === 0){
-                console.log("Time to make an offer!");
-                
                 this.updateOffer(value);
-
                 if (available >= 22){
                     this.setState({ leftThisRound: 5 })
                 }
@@ -151,9 +129,6 @@ class App extends Component {
                 }
                 else if (available === 2){
                     this.setState({ leftThisRound: 1 })
-                }
-                else {
-                    this.setState({ leftThisRound: casesLeftBeforeOffer });
                 }
             }
         }

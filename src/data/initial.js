@@ -66,3 +66,7 @@ export const prizes = [
     {id: 30, amount:0.50, inPlay: true},
     {id: 31, amount:0.01, inPlay: true},
 ]
+
+export const unSelectedSuitcase = {id: 0, label:'1', value:0, selected: false, chosen: false}
+export const selectedSuitcase = {id: 0, label:'1', value:0, selected: true, chosen: false}
+export const chosenSuitcase = {id: 0, label:'1', value:0, selected: false, chosen: true}
